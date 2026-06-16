@@ -1,0 +1,27 @@
+# Gradle
+.gradle/
+build/
+**/build/
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# Kotlin Native
+.konan/
+
+# macOS
+.DS_Store
+
+# Python
+server/__pycache__/
+server/.venv/
+server/.env
+**/*.pyc
+
+# Secrets — never commit
+*.keystore
+*.jks
+google-services.json
+secrets.properties
