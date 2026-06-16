@@ -7,7 +7,13 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all { kotlinOptions { jvmTarget = "17" } }
+       compilations.all {
+    compileTaskProvider.configure {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
+}
     }
 
     sourceSets {

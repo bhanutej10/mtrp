@@ -4,7 +4,13 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 kotlin {
-    androidTarget { compilations.all { kotlinOptions { jvmTarget = "17" } } }
+    androidTarget { compilations.all {
+    compileTaskProvider.configure {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
+} }
     sourceSets {
         commonMain.dependencies {
             implementation(project(":sdk:core"))
