@@ -10,7 +10,7 @@ WiFi → Mobile Data → WiFi Direct → BLE → SMS → LoRa → Store & Forwar
 ## Progress
 
 - [x] Phase 0 — Environment setup
-- [ ] Phase 1 — Protocol specification (MTRP-SPEC-v0.1)
+- [x] Phase 1 — Protocol specification (MTRP-SPEC-v0.1)
 - [ ] Phase 2 — Packet format + codec
 - [ ] Phase 3 — Crypto engine
 - [ ] Phase 4 — Routing engine
