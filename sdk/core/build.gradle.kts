@@ -3,30 +3,30 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.protobuf)
 }
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 kotlin {
     androidTarget {
-       compilations.all {
-    compileTaskProvider.configure {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
-    }
-}
     }
 
     sourceSets {
         commonMain.dependencies {
             implementation(libs.coroutines.core)
             implementation(libs.serialization.json)
-            implementation(libs.serialization.proto)
             implementation(libs.datetime)
             implementation(libs.koin.core)
             implementation(libs.sqldelight.coroutines)
             implementation(libs.settings)
             implementation(libs.settings.coroutines)
+            implementation(libs.protobuf.kotlin)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.coroutines.test)
@@ -35,6 +35,7 @@ kotlin {
             implementation(libs.turbine)
             implementation(libs.sqldelight.test)
         }
+
         androidMain.dependencies {
             implementation(libs.coroutines.android)
             implementation(libs.sqldelight.android)
@@ -46,10 +47,33 @@ kotlin {
 android {
     namespace = "dev.mtrp.core"
     compileSdk = 34
-    defaultConfig { minSdk = 26 }
+
+    defaultConfig {
+        minSdk = 26
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.java.get()}"
+    }
+
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+                create("kotlin") {
+                    option("lite")
+                }
+            }
+        }
     }
 }
 

@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package dev.mtrp.core;
+
+option java_package = "dev.mtrp.core.proto";
+option java_multiple_files = true;
+option optimize_for = LITE_RUNTIME;
+
+// MTRP-SPEC-v0.1 Section 5 — Packet Format
+// Author: K. Bhanutej
+// All field numbers are fixed — never reorder or reuse them.
+
+// MtrpPacketProto — the wire format for all MTRP packets.
+// Relay nodes decode only the header fields (1-5).
+// The payload (6) is opaque to relay nodes — XChaCha20-Poly1305 encrypted.
+// sender_sig (7) is verified only by the destination node.
+message MtrpPacketProto {
+    uint32 version       = 1;   // SPEC 5.2: protocol version — currently 1
+    bytes  routing_id    = 2;   // SPEC 3.4: 8-byte session pseudonym (not real dest)
+    uint32 ttl           = 3;   // SPEC 5.2: remaining hops (0-255, unsigned)
+    uint32 chan_type      = 4;   // SPEC 5.2: originating transport channel
+    bytes  relay_mac     = 5;   // SPEC 7.6: 32-byte HMAC-SHA256 relay integrity
+    bytes  payload       = 6;   // SPEC 5.2: XChaCha20-Poly1305 ciphertext + padding
+    bytes  sender_sig    = 7;   // SPEC 7.6: 64-byte Ed25519 signature (dest-verified)
+    bytes  pad           = 8;   // SPEC 5.4: random padding to fixed bucket size
+
+    // Fragment fields — only present when packet is fragmented (SPEC 5.6)
+    bytes  msg_id          = 9;  // 8-byte original message ID for reassembly
+    uint32 fragment_index  = 10; // 0-based index of this fragment
+    uint32 fragment_total  = 11; // total fragment count for this message
+
+    // Timestamp — included in relay_mac input to close replay window (SPEC 5.3)
+    int64 created_at_ms  = 12;  // Unix milliseconds when packet was created
+}
+
+// DecryptedPayloadProto — structure after XChaCha20-Poly1305 decryption.
+// Relay nodes never see this. Only the destination decrypts and reads it.
+message DecryptedPayloadProto {
+    bytes  origin_id    = 1;   // SPEC 5.5: real sender node_id (8 bytes)
+    int64  created_at   = 2;   // SPEC 5.5: Unix ms when message was created
+    uint32 msg_type     = 3;   // SPEC 5.5: message type (MsgType enum values)
+    bytes  app_data     = 4;   // SPEC 5.5: application payload
+    bytes  nonce        = 5;   // 20 bytes: 12 random + 8 counter (SPEC 7.5)
+}
+
+// BeaconPayloadProto — content of a BEACON message (SPEC 6.2)
+message BeaconPayloadProto {
+    string node_id       = 1;
+    string version       = 2;
+    repeated string transports = 3;
+    string platform      = 4;
+    int32  battery_pct   = 5;  // advisory only — MUST NOT be trusted for scoring
+    int64  timestamp     = 6;
+}
+
+// RreqPayloadProto — Route Request flood packet (SPEC 6.4)
+message RreqPayloadProto {
+    bytes  dest_id      = 1;   // destination node_id being sought
+    bytes  origin_id    = 2;   // origin node_id
+    bytes  rreq_id      = 3;   // unique ID for this discovery session
+    repeated bytes path_record = 4; // node_ids this RREQ has passed through
+    int64  timestamp    = 5;
+}
+
+// RrepPayloadProto — Route Reply (SPEC 6.4)
+// MUST be signed by destination node's Ed25519 key (fixes issue 19)
+message RrepPayloadProto {
+    bytes  dest_id          = 1;
+    bytes  origin_id        = 2;
+    repeated bytes path_record = 3;
+    int64  total_latency_ms = 4;
+    int64  timestamp        = 5;
+    bytes  rrep_sig         = 6;  // Ed25519 signed by destination (SPEC 6.4)
+}
+
+// AckPayloadProto — delivery acknowledgement (SPEC 6.6)
+message AckPayloadProto {
+    bytes  ack_msg_id   = 1;   // msg_id of the packet being acknowledged
+    bytes  receiver_id  = 2;   // node_id of the acknowledging node
+    int64  timestamp    = 3;
+}
+
+// RevokePayloadProto — key revocation broadcast (SPEC 3.3)
+message RevokePayloadProto {
+    bytes  node_id      = 1;   // node_id being revoked
+    int64  timestamp    = 2;
+    bytes  sig          = 3;   // Ed25519_Sign(private_key, SHA512(node_id || timestamp))
+    string reason       = 4;   // max 128 bytes
+}
