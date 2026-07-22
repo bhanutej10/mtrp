@@ -15,14 +15,6 @@ This repository contains the MTRP protocol specification and its Kotlin Multipla
 
 ---
 
-## Problem Statement
-
-Existing messaging systems depend on a single communication path, typically internet via WiFi or mobile data. When that path fails due to network outages, natural disasters, remote locations, or infrastructure failure, communication stops entirely.
-
-MTRP addresses this by maintaining an ordered stack of transport channels and falling back automatically when higher-priority channels are unavailable. Messages are relayed through intermediate nodes to extend reach beyond direct radio range. Relay nodes operate silently in the background and cannot read the packets they forward.
-
----
-
 ## How a Message Travels
 
 When a message is sent, MTRP selects the best available channel based on a four-dimension adaptive scoring formula. If that channel fails or has no path to the destination, it falls back to the next available channel. Intermediate devices relay the encrypted packet without any action from their owners.
