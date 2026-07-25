@@ -25,6 +25,8 @@ kotlin {
             implementation(libs.settings)
             implementation(libs.settings.coroutines)
             implementation(libs.protobuf.kotlin)
+            implementation(libs.kalium.core)
+
         }
 
         commonTest.dependencies {
@@ -36,11 +38,12 @@ kotlin {
             implementation(libs.sqldelight.test)
         }
 
-        androidMain.dependencies {
-            implementation(libs.coroutines.android)
-            implementation(libs.sqldelight.android)
-            implementation(libs.koin.android)
-        }
+androidMain.dependencies {
+    implementation(libs.coroutines.android)
+    implementation(libs.sqldelight.android)
+    implementation(libs.koin.android)
+    implementation(libs.androidx.security.crypto)   // ← add this line
+}
     }
 }
 
