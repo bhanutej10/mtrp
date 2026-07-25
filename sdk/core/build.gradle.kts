@@ -42,7 +42,11 @@ androidMain.dependencies {
     implementation(libs.coroutines.android)
     implementation(libs.sqldelight.android)
     implementation(libs.koin.android)
+<<<<<<< HEAD
     implementation(libs.androidx.security.crypto)   // ← add this line
+=======
+    implementation(libs.androidx.security.crypto)
+>>>>>>> cf18eb1 (feat(crypto): Phase 3 — crypto engine)
 }
     }
 }
