@@ -172,10 +172,8 @@ mtrp/
 
 ```bash
 ./gradlew build
-./gradlew :sdk:core:allTests
+./gradlew :sdk:core:testDebugUnitTest
 ```
-
-Current state: BUILD SUCCESSFUL, 75 tests passing, 0 failures.
 
 ---
 
@@ -186,8 +184,8 @@ Current state: BUILD SUCCESSFUL, 75 tests passing, 0 failures.
 | 0 | Project scaffold, KMP module structure, build passing, smoke tests | Complete |
 | 1 | Protocol specification, MTRP-SPEC-v0.1, full security design | Complete |
 | 2 | Packet format and codec, protobuf schema, PacketCodec, FragmentAssembler | Complete |
-| 3 | Crypto engine, libsodium integration, Noise XX handshake, symmetric ratchet | Next |
-| 4 | Routing engine, RouteTable, MeshRouter, Deduplicator | |
+| 3 | Crypto engine, libsodium integration, Noise XX handshake, symmetric ratchet | Complete |
+| 4 | Routing engine, RouteTable, MeshRouter, Deduplicator | Complete |
 | 5 | Internet transport, Ktor WebSocket, Nostr relay | |
 | 6 | BLE transport, Android GATT server and client | |
 | 7 | SMS transport, SmsManager and BroadcastReceiver | |
@@ -207,3 +205,4 @@ K. Bhanutej
 ---
 
 MTRP is an open protocol. The specification is public. Anyone may implement a conforming MTRP node in any language.
+
