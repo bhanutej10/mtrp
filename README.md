@@ -186,7 +186,7 @@ mtrp/
 | 2 | Packet format and codec, protobuf schema, PacketCodec, FragmentAssembler | Complete |
 | 3 | Crypto engine, libsodium integration, Noise XX handshake, symmetric ratchet | Complete |
 | 4 | Routing engine, RouteTable, MeshRouter, Deduplicator | Complete |
-| 5 | Internet transport, Ktor WebSocket, Nostr relay | |
+| 5 | Internet transport, Ktor WebSocket, Nostr relay | Complete |
 | 6 | BLE transport, Android GATT server and client | |
 | 7 | SMS transport, SmsManager and BroadcastReceiver | |
 | 8 | Store and forward queue, SQLCipher, retry scheduler | |
