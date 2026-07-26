@@ -26,6 +26,8 @@ kotlin {
             implementation(libs.settings.coroutines)
             implementation(libs.protobuf.kotlin)
             implementation(libs.kalium.core)
+            implementation(libs.ktor.client.core)
+	    implementation(libs.ktor.client.websockets)
 
         }
 
@@ -43,6 +45,7 @@ androidMain.dependencies {
     implementation(libs.sqldelight.android)
     implementation(libs.koin.android)
     implementation(libs.androidx.security.crypto)
+    implementation(libs.ktor.client.cio)
 
 }
     }
