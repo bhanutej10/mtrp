@@ -187,7 +187,7 @@ mtrp/
 | 3 | Crypto engine, libsodium integration, Noise XX handshake, symmetric ratchet | Complete |
 | 4 | Routing engine, RouteTable, MeshRouter, Deduplicator | Complete |
 | 5 | Internet transport, Ktor WebSocket, Nostr relay | Complete |
-| 6 | BLE transport, Android GATT server and client | |
+| 6 | BLE transport, Android GATT server and client | Complete |
 | 7 | SMS transport, SmsManager and BroadcastReceiver | |
 | 8 | Store and forward queue, SQLCipher, retry scheduler | |
 | 9 | Channel manager and public SDK API | |
