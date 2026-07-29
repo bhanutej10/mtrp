@@ -188,7 +188,7 @@ mtrp/
 | 4 | Routing engine, RouteTable, MeshRouter, Deduplicator | Complete |
 | 5 | Internet transport, Ktor WebSocket, Nostr relay | Complete |
 | 6 | BLE transport, Android GATT server and client | Complete |
-| 7 | SMS transport, SmsManager and BroadcastReceiver | |
+| 7 | SMS transport, SmsManager and BroadcastReceiver | Complete |
 | 8 | Store and forward queue, SQLCipher, retry scheduler | |
 | 9 | Channel manager and public SDK API | |
 | 10 | WiFi Direct transport | |
