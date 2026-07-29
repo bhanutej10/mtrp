@@ -7,8 +7,17 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import dev.mtrp.core.ChannelType
 import dev.mtrp.core.MTRP
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+
 
 class MainActivity : AppCompatActivity() {
+
+	companion object {
+    private const val REQUEST_SMS_PERMISSION = 1001
+}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,5 +52,15 @@ class MainActivity : AppCompatActivity() {
         })
 
         setContentView(layout)
-    }
+        
+ if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+    != PackageManager.PERMISSION_GRANTED) {
+    ActivityCompat.requestPermissions(
+        this,
+        arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS),
+        REQUEST_SMS_PERMISSION
+    )
 }
+}
+    }
+

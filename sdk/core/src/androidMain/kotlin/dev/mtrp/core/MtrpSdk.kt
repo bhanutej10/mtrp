@@ -4,6 +4,7 @@ import android.content.Context
 import dev.mtrp.core.routing.MeshRouter
 import dev.mtrp.core.transport.ble.BleTransport
 import dev.mtrp.core.transport.internet.InternetTransportFactory
+import dev.mtrp.core.transport.sms.SmsTransport
 
 /**
  * SDK entry point. Call MtrpSdk.init() once in Application.onCreate().
@@ -27,5 +28,6 @@ object MtrpSdk {
 
         // Register BLE transport
         router.registerTransport(ChannelType.BLE, BleTransport(context))
+        router.registerTransport(ChannelType.SMS, SmsTransport(context))
     }
 }

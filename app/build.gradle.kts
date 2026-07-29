@@ -20,10 +20,14 @@ kotlin {
             implementation(libs.coroutines.android)
             implementation(libs.androidx.activity)
             implementation(libs.androidx.appcompat)
+            
         }
     }
 }
-
+dependencies {
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+}
 android {
     namespace = "dev.mtrp.app"
     compileSdk = 34
