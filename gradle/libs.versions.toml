@@ -23,6 +23,8 @@ protobuf-plugin  = "0.9.4"
 protobuf-java    = "4.26.1"
 kalium = "0.9.5"
 androidx-security = "1.0.0"
+sqlcipher   = "4.5.4"
+
 
 
 
@@ -38,6 +40,8 @@ datetime              = { module = "org.jetbrains.kotlinx:kotlinx-datetime",    
 sqldelight-android    = { module = "app.cash.sqldelight:android-driver",                    version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions",             version.ref = "sqldelight" }
 sqldelight-test       = { module = "app.cash.sqldelight:sqlite-driver",                     version.ref = "sqldelight" }
+sqlcipher-android = { module = "net.zetetic:android-database-sqlcipher", version.ref = "sqlcipher" }
+sqldelight-runtime = { module = "app.cash.sqldelight:runtime",           version.ref = "sqldelight" }
 ktor-client-core      = { module = "io.ktor:ktor-client-core",                              version.ref = "ktor" }
 ktor-client-okhttp    = { module = "io.ktor:ktor-client-okhttp",                            version.ref = "ktor" }
 ktor-client-ws        = { module = "io.ktor:ktor-client-websockets",                        version.ref = "ktor" }

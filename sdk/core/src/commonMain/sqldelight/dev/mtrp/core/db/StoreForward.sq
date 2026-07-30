@@ -1,0 +1,52 @@
+-- MTRP-SPEC-v0.1 Section 8 — Store and Forward Queue
+-- Author: K. Bhanutej
+
+CREATE TABLE IF NOT EXISTS queue_entry (
+    msg_id        TEXT    NOT NULL PRIMARY KEY,
+    routing_id    TEXT    NOT NULL,
+    origin_id     TEXT    NOT NULL,
+    payload       BLOB    NOT NULL,
+    created_at_ms INTEGER NOT NULL,
+    retry_count   INTEGER NOT NULL DEFAULT 0,
+    next_retry_ms INTEGER NOT NULL,
+    expires_ms    INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_next_retry ON queue_entry(next_retry_ms);
+CREATE INDEX IF NOT EXISTS idx_origin     ON queue_entry(origin_id);
+CREATE INDEX IF NOT EXISTS idx_expires    ON queue_entry(expires_ms);
+
+insertEntry:
+INSERT OR REPLACE INTO queue_entry
+(msg_id, routing_id, origin_id, payload, created_at_ms, retry_count, next_retry_ms, expires_ms)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+selectDue:
+SELECT * FROM queue_entry
+WHERE next_retry_ms <= ?
+AND   expires_ms    >  ?
+ORDER BY next_retry_ms ASC
+LIMIT 50;
+
+selectByOrigin:
+SELECT COUNT(*) FROM queue_entry WHERE origin_id = ?;
+
+updateRetry:
+UPDATE queue_entry
+SET retry_count   = ?,
+    next_retry_ms = ?
+WHERE msg_id = ?;
+
+deleteEntry:
+DELETE FROM queue_entry WHERE msg_id = ?;
+
+deleteExpired:
+DELETE FROM queue_entry WHERE expires_ms <= ?;
+
+countTotal:
+SELECT COUNT(*) FROM queue_entry;
+
+deleteOldest:
+DELETE FROM queue_entry WHERE msg_id IN (
+    SELECT msg_id FROM queue_entry ORDER BY created_at_ms ASC LIMIT ?
+);

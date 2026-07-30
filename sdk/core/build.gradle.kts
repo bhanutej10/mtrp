@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.protobuf)
+    
 }
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -22,6 +23,7 @@ kotlin {
             implementation(libs.datetime)
             implementation(libs.koin.core)
             implementation(libs.sqldelight.coroutines)
+            implementation(libs.sqldelight.runtime)
             implementation(libs.settings)
             implementation(libs.settings.coroutines)
             implementation(libs.protobuf.kotlin)
@@ -46,6 +48,7 @@ androidMain.dependencies {
     implementation(libs.koin.android)
     implementation(libs.androidx.security.crypto)
     implementation(libs.ktor.client.cio)
+    implementation(libs.sqlcipher.android)
 
 }
     }
