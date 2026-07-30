@@ -15,6 +15,14 @@ This repository contains the MTRP protocol specification and its Kotlin Multipla
 
 ---
 
+## Problem Statement
+
+Existing messaging systems depend on a single communication path, typically internet via WiFi or mobile data. When that path fails due to network outages, natural disasters, remote locations, or infrastructure failure, communication stops entirely.
+
+MTRP addresses this by maintaining an ordered stack of transport channels and falling back automatically when higher-priority channels are unavailable. Messages are relayed through intermediate nodes to extend reach beyond direct radio range. Relay nodes operate silently in the background and cannot read the packets they forward.
+
+---
+
 ## How a Message Travels
 
 When a message is sent, MTRP selects the best available channel based on a four-dimension adaptive scoring formula. If that channel fails or has no path to the destination, it falls back to the next available channel. Intermediate devices relay the encrypted packet without any action from their owners.
@@ -42,9 +50,12 @@ MTRP attempts channels in the following priority order. Lower number means highe
 | 5 | SMS | 140 bytes | No | Origin node only |
 | 6 | LoRa | 50 bytes | No | Yes |
 | 7 | Nostr Relay | 65536 bytes | Yes | Yes |
-| 8 | Store and Forward | 65536 bytes | No | Yes |
+| 8 | Ethernet LAN | 65536 bytes | No | Yes |
+| 9 | Store and Forward | 65536 bytes | No | Yes |
 
-SMS uses the 2G signalling channel rather than the data channel. A device with no data connection but a faint 2G signal can still send via SMS. Relay nodes are not permitted to use SMS as that would consume the relay owner's SMS quota without consent. Only the origin node of a message may use SMS.
+**Ethernet** uses TCP sockets over a wired LAN. Two computers connected by an Ethernet cable or a local switch can exchange MTRP packets with zero internet dependency and sub-millisecond latency. This makes MTRP useful for local mesh networks in offices, homes, and disaster response setups where wired infrastructure is available but internet is not.
+
+**SMS** uses the 2G signalling channel rather than the data channel. A device with no data connection but a faint 2G signal can still send via SMS. Relay nodes are not permitted to use SMS as that would consume the relay owner's SMS quota without consent. Only the origin node of a message may use SMS.
 
 ---
 
@@ -53,7 +64,7 @@ SMS uses the 2G signalling channel rather than the data channel. A device with n
 The security architecture was defined before any implementation work began. A full threat model identified 48 attack vectors across identity, handshake, encryption, routing, relay, storage, and timing layers. All 48 are addressed in the protocol specification.
 
 ```
-Identity:           Ed25519 keypair, 22-character node ID with approximately 128 bits of entropy
+Identity:           Ed25519 keypair, 22-character node ID with ~128 bits of entropy
 Handshake:          Noise XX pattern with post-handshake identity binding and KCI protection
 Encryption:         XChaCha20-Poly1305 via libsodium
 Forward secrecy:    Symmetric ratchet, fresh key per message, previous key deleted after use
@@ -105,11 +116,12 @@ The relay service:
 
 | Platform | Status | Available Channels |
 |---|---|---|
-| Android | Reference implementation | All 8 channels |
-| Linux desktop | Planned after Phase 5 | WiFi, Nostr, LoRa via USB, Store and Forward |
-| Windows desktop | Planned after Phase 5 | WiFi, Nostr, LoRa via USB, Store and Forward |
+| Android | Reference implementation | All channels |
+| Linux desktop | Planned — Phase 13 | WiFi, Ethernet, Nostr, LoRa via USB, Store and Forward |
+| Windows desktop | Planned — Phase 13 | WiFi, Ethernet, Nostr, LoRa via USB, Store and Forward |
+| Browser PWA | Planned — Phase 15 | WebSocket (WiFi, Nostr), WebBluetooth, Store and Forward |
 
-A desktop node acts as a fixed relay. A device that is always on and connected to power, with optional LoRa USB module attached, extends the mesh range considerably for nearby mobile nodes.
+A desktop node acts as a fixed relay. A device that is always on and connected to power, with optional LoRa USB module attached, extends the mesh range considerably for nearby mobile nodes. Two desktop nodes connected via Ethernet can relay MTRP packets across a wired LAN with no internet dependency at all.
 
 ---
 
@@ -136,7 +148,7 @@ The SDK implements the specification. Where any conflict exists between implemen
 |---|---|
 | Language | Kotlin Multiplatform |
 | Android UI | Jetpack Compose |
-| Desktop UI | Compose Desktop, planned Phase 5 |
+| Desktop UI | Compose Desktop, Phase 13 |
 | Networking | Ktor, WebSocket and HTTP |
 | Database | SQLDelight with SQLCipher |
 | Cryptography | libsodium via kalium KMP wrapper |
@@ -158,10 +170,11 @@ mtrp/
 │   ├── transport-internet/         WiFi, cellular data, Nostr relay
 │   ├── transport-sms/              SMS transport, Android
 │   ├── transport-wifidirect/       WiFi Direct P2P, Android
+│   ├── transport-ethernet/         Ethernet LAN via TCP sockets
 │   └── transport-lora/             LoRa via USB serial module
 ├── app/
 │   ├── androidMain/                Android demo application
-│   └── desktopMain/                desktop relay node, Phase 5 onwards
+│   └── desktopMain/                desktop relay node, Phase 13
 └── server/
     └── mtrp_relay/                 Python FastAPI relay server
 ```
@@ -184,16 +197,19 @@ mtrp/
 | 0 | Project scaffold, KMP module structure, build passing, smoke tests | Complete |
 | 1 | Protocol specification, MTRP-SPEC-v0.1, full security design | Complete |
 | 2 | Packet format and codec, protobuf schema, PacketCodec, FragmentAssembler | Complete |
-| 3 | Crypto engine, libsodium integration, Noise XX handshake, symmetric ratchet | Complete |
+| 3 | Crypto engine, libsodium, Noise XX handshake, symmetric ratchet | Complete |
 | 4 | Routing engine, RouteTable, MeshRouter, Deduplicator | Complete |
-| 5 | Internet transport, Ktor WebSocket, Nostr relay | Complete |
+| 5 | Internet transport, Ktor WebSocket, WiFi, Cellular, Nostr | Complete |
 | 6 | BLE transport, Android GATT server and client | Complete |
 | 7 | SMS transport, SmsManager and BroadcastReceiver | Complete |
 | 8 | Store and forward queue, SQLCipher, retry scheduler | Complete |
-| 9 | Channel manager and public SDK API | |
-| 10 | WiFi Direct transport | |
-| 11 | LoRa gateway, Python and meshtastic-python | |
-| 12 | Publishing open specification and SDK on Maven Central | |
+| 9 | Channel manager and public SDK API | Complete |
+| 10 | WiFi Direct transport | Next |
+| 11 | Ethernet transport, wired LAN via TCP sockets | |
+| 12 | LoRa gateway, Python and meshtastic-python | |
+| 13 | Desktop app, Linux and Windows via Compose Desktop | |
+| 14 | Publish open specification and SDK on Maven Central | |
+| 15 | Web client PWA, plain HTML and JS, Service Worker | |
 
 ---
 
@@ -205,4 +221,3 @@ K. Bhanutej
 ---
 
 MTRP is an open protocol. The specification is public. Anyone may implement a conforming MTRP node in any language.
-
