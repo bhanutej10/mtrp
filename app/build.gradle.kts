@@ -27,6 +27,8 @@ kotlin {
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("app.cash.sqldelight:android-driver:2.0.2")
+    implementation("net.zetetic:android-database-sqlcipher:4.5.4")
 }
 android {
     namespace = "dev.mtrp.app"
