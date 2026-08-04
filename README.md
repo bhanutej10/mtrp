@@ -204,7 +204,7 @@ mtrp/
 | 7 | SMS transport, SmsManager and BroadcastReceiver | Complete |
 | 8 | Store and forward queue, SQLCipher, retry scheduler | Complete |
 | 9 | Channel manager and public SDK API | Complete |
-| 10 | WiFi Direct transport | Next |
+| 10 | WiFi Direct transport | Complete |
 | 11 | Ethernet transport, wired LAN via TCP sockets | |
 | 12 | LoRa gateway, Python and meshtastic-python | |
 | 13 | Desktop app, Linux and Windows via Compose Desktop | |
