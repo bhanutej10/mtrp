@@ -15,6 +15,7 @@ import dev.mtrp.core.transport.internet.CellularTransport
 import dev.mtrp.core.transport.internet.NostrTransport
 import dev.mtrp.core.transport.internet.WifiTransport
 import dev.mtrp.core.transport.sms.SmsTransport
+import dev.mtrp.core.transport.wifidirect.WifiDirectTransport
 
 /**
  * MTRP SDK entry point.
@@ -60,6 +61,7 @@ object MtrpSdk {
 
         // Register all transports
         channelManager.register(WifiTransport(serverUrl,    identity.nodeId, ChannelType.WIFI))
+        channelManager.register(WifiDirectTransport(context))
         channelManager.register(CellularTransport(serverUrl, identity.nodeId))
         channelManager.register(BleTransport(context))
         channelManager.register(SmsTransport(context))
