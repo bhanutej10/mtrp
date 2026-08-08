@@ -8,24 +8,17 @@ package dev.mtrp.core
  * Author: K. Bhanutej
  */
 enum class ChannelType(
-    // Section 4.1 — core properties
-    val displayName: String,
-    val maxPayloadBytes: Int,
-    val typicalLatencyMs: Long,
-    val requiresInternet: Boolean,
-    val requiresHardware: Boolean,
-
-    // Section 4.1 — SMS relay restriction (compile-time, not runtime)
-    val relayAllowed: Boolean,
-
-    // Section 4.3 — adaptive scoring inputs
-    val bandwidthClass: Int,       // 0=lowest BW, 4=highest BW
-    val powerIndex: Float,         // 0=power hungry, 1=power efficient
-    val offlineReachBonus: Float,  // 0=no bonus, 1=max offline reach
-
-    // Section 4.2 — platform support
-    val androidSupported: Boolean,
-    val desktopSupported: Boolean
+    val displayName:       String,
+    val maxPayloadBytes:   Int,
+    val typicalLatencyMs:  Long,
+    val requiresInternet:  Boolean,
+    val requiresHardware:  Boolean,
+    val relayAllowed:      Boolean,
+    val bandwidthClass:    Int,
+    val powerIndex:        Float,
+    val offlineReachBonus: Float,
+    val androidSupported:  Boolean,
+    val desktopSupported:  Boolean
 ) {
     WIFI(
         displayName       = "WiFi (Internet)",
@@ -85,7 +78,7 @@ enum class ChannelType(
         typicalLatencyMs  = 3000L,
         requiresInternet  = false,
         requiresHardware  = false,
-        relayAllowed      = false,  // SPEC 4.1: origin node only
+        relayAllowed      = false,
         bandwidthClass    = 0,
         powerIndex        = 0.7f,
         offlineReachBonus = 0.5f,
@@ -118,6 +111,19 @@ enum class ChannelType(
         androidSupported  = true,
         desktopSupported  = true
     ),
+    ETHERNET(
+        displayName       = "Ethernet LAN (wired TCP)",
+        maxPayloadBytes   = 65536,
+        typicalLatencyMs  = 1L,
+        requiresInternet  = false,
+        requiresHardware  = true,
+        relayAllowed      = true,
+        bandwidthClass    = 4,
+        powerIndex        = 0.1f,
+        offlineReachBonus = 0.4f,
+        androidSupported  = false,
+        desktopSupported  = true
+    ),
     QUEUED(
         displayName       = "Store and Forward Queue",
         maxPayloadBytes   = 65536,
@@ -132,7 +138,7 @@ enum class ChannelType(
         desktopSupported  = true
     );
 
-    fun isOffCapable(): Boolean = !requiresInternet
+    fun isOffCapable():    Boolean = !requiresInternet
     fun canBeUsedByRelay(): Boolean = relayAllowed
-    fun isMobileOnly(): Boolean = androidSupported && !desktopSupported
+    fun isMobileOnly():    Boolean = androidSupported && !desktopSupported
 }

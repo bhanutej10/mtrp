@@ -48,10 +48,10 @@ class SpecValidationTest {
             "SPEC 4.1: Store and Forward MUST be last resort")
 
     @Test
-    fun exactlyEightChannels() =
-        assertEquals(8, ChannelType.entries.size,
-            "SPEC 4.1: Exactly 8 channels defined")
-
+    fun exactlyNineChannels() =
+    assertEquals(9, ChannelType.entries.size,
+        "9 channels defined including ETHERNET")
+        
     // ── Section 4.1 — SMS relay restriction ──────────────────────
 
     @Test

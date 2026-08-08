@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
  *
  * Author: K. Bhanutej
  */
-class ChannelManager(private val router: MeshRouter) {
+open class ChannelManager(private val router: MeshRouter) {
 
     private val scope   = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val scorer  = ChannelScorer()

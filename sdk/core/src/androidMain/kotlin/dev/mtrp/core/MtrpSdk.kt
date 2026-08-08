@@ -16,6 +16,7 @@ import dev.mtrp.core.transport.internet.NostrTransport
 import dev.mtrp.core.transport.internet.WifiTransport
 import dev.mtrp.core.transport.sms.SmsTransport
 import dev.mtrp.core.transport.wifidirect.WifiDirectTransport
+import dev.mtrp.core.channel.FragmentingChannelManager
 
 /**
  * MTRP SDK entry point.
@@ -57,7 +58,7 @@ object MtrpSdk {
         router = MeshRouter(identity.nodeId)
 
         // Set up channel manager
-        val channelManager = ChannelManager(router)
+        val channelManager = FragmentingChannelManager(router)
 
         // Register all transports
         channelManager.register(WifiTransport(serverUrl,    identity.nodeId, ChannelType.WIFI))

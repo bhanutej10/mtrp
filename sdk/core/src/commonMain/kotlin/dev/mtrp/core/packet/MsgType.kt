@@ -41,17 +41,18 @@ enum class ChanType(val wireValue: Int) {
                 ?: throw IllegalArgumentException(
                     "Unknown chan_type: 0x${value.toString(16)} — SPEC E010")
 
-        fun fromChannelType(ch: dev.mtrp.core.ChannelType): ChanType =
-            when (ch) {
-                dev.mtrp.core.ChannelType.WIFI        -> WIFI
-                dev.mtrp.core.ChannelType.CELLULAR    -> CELLULAR
-                dev.mtrp.core.ChannelType.WIFI_DIRECT -> WIFI_DIRECT
-                dev.mtrp.core.ChannelType.BLE         -> BLE
-                dev.mtrp.core.ChannelType.SMS         -> SMS
-                dev.mtrp.core.ChannelType.LORA        -> LORA
-                dev.mtrp.core.ChannelType.NOSTR       -> NOSTR
-                dev.mtrp.core.ChannelType.QUEUED      ->
-                    throw IllegalArgumentException("QUEUED has no wire value")
-            }
+       fun fromChannelType(ch: dev.mtrp.core.ChannelType): ChanType =
+    when (ch) {
+        dev.mtrp.core.ChannelType.WIFI        -> WIFI
+        dev.mtrp.core.ChannelType.CELLULAR    -> CELLULAR
+        dev.mtrp.core.ChannelType.WIFI_DIRECT -> WIFI_DIRECT
+        dev.mtrp.core.ChannelType.BLE         -> BLE
+        dev.mtrp.core.ChannelType.SMS         -> SMS
+        dev.mtrp.core.ChannelType.LORA        -> LORA
+        dev.mtrp.core.ChannelType.NOSTR       -> NOSTR
+        dev.mtrp.core.ChannelType.ETHERNET    -> WIFI 
+        dev.mtrp.core.ChannelType.QUEUED      ->
+            throw IllegalArgumentException("QUEUED has no wire value")
+    }
     }
 }
