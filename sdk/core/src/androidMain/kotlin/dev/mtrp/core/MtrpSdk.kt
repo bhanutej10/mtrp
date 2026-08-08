@@ -18,6 +18,9 @@ import dev.mtrp.core.transport.sms.SmsTransport
 import dev.mtrp.core.transport.wifidirect.WifiDirectTransport
 import dev.mtrp.core.channel.FragmentingChannelManager
 import dev.mtrp.core.transport.ethernet.EthernetTransport
+import dev.mtrp.core.transport.lora.LoraTransport
+import java.io.File
+
 
 
 /**
@@ -70,7 +73,16 @@ object MtrpSdk {
         channelManager.register(SmsTransport(context))
         channelManager.register(NostrTransport(nostrRelayUrl, identity.nodeId))
         channelManager.register(EthernetTransport())
+        
 
+	val loraPort = when {
+    	File("/dev/ttyUSB0").exists() -> "/dev/ttyUSB0"
+    	File("/dev/ttyACM0").exists() -> "/dev/ttyACM0"
+    	else -> null
+	}
+	if (loraPort != null) {
+   	 channelManager.register(LoraTransport(loraPort))
+	}
         // Set up store and forward queue
         val database = MtrpDatabase(dbDriver)
         val queue    = StoreForwardQueue(database)
