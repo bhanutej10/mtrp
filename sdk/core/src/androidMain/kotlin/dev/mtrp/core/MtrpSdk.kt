@@ -17,6 +17,8 @@ import dev.mtrp.core.transport.internet.WifiTransport
 import dev.mtrp.core.transport.sms.SmsTransport
 import dev.mtrp.core.transport.wifidirect.WifiDirectTransport
 import dev.mtrp.core.channel.FragmentingChannelManager
+import dev.mtrp.core.transport.ethernet.EthernetTransport
+
 
 /**
  * MTRP SDK entry point.
@@ -67,6 +69,7 @@ object MtrpSdk {
         channelManager.register(BleTransport(context))
         channelManager.register(SmsTransport(context))
         channelManager.register(NostrTransport(nostrRelayUrl, identity.nodeId))
+        channelManager.register(EthernetTransport())
 
         // Set up store and forward queue
         val database = MtrpDatabase(dbDriver)
