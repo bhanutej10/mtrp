@@ -205,7 +205,7 @@ mtrp/
 | 8 | Store and forward queue, SQLCipher, retry scheduler | Complete |
 | 9 | Channel manager and public SDK API | Complete |
 | 10 | WiFi Direct transport | Complete |
-| 11 | Ethernet transport, wired LAN via TCP sockets | |
+| 11 | Ethernet transport, wired LAN via TCP sockets | Complete |
 | 12 | LoRa gateway, Python and meshtastic-python | |
 | 13 | Desktop app, Linux and Windows via Compose Desktop | |
 | 14 | Publish open specification and SDK on Maven Central | |
