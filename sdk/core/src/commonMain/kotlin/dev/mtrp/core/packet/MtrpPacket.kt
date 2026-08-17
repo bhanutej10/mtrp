@@ -134,6 +134,7 @@ data class MtrpPayload(
 
 // Platform-specific time function — implemented in androidMain / desktopMain
 expect fun currentTimeMs(): Long
+expect fun fillRandom(bytes: ByteArray) 
 
 // Extension to hex string — useful for logging and debugging
 fun ByteArray.toHex(): String =
