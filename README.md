@@ -207,9 +207,10 @@ mtrp/
 | 10 | WiFi Direct transport | Complete |
 | 11 | Ethernet transport, wired LAN via TCP sockets | Complete |
 | 12 | LoRa gateway, Python and meshtastic-python | Complete |
-| 13 | Desktop app, Linux and Windows via Compose Desktop | |
-| 14 | Publish open specification and SDK on Maven Central | |
-| 15 | Web client PWA, plain HTML and JS, Service Worker | |
+| 13 | Desktop app, Linux and Windows via Compose Desktop | Complete |
+| 14 | Android + Desktop UI — full screens, contacts, settings | Next |
+| 15 | Publish open specification and SDK on Maven Central | |
+| 16 | Web client PWA, plain HTML and JS, Service Worker | |
 
 ---
 
