@@ -80,6 +80,9 @@ object MTRP {
 
     // Section 4.4 — Scoring minimum execution time
     const val SCORING_MIN_TIME_MS = 5L
+    
+    const val BEACON_INTERVAL_MS = 30_000L
+    const val BROADCAST_NODE_ID  = "00000000000000000000000000000000"
 
     fun version(): String  = "$PROTOCOL_SHORT v$VERSION"
     fun fullInfo(): String = "$PROTOCOL_NAME ($PROTOCOL_SHORT) v$VERSION"

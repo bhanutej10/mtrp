@@ -29,6 +29,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("app.cash.sqldelight:android-driver:2.0.2")
     implementation("net.zetetic:android-database-sqlcipher:4.5.4")
+    implementation("androidx.compose.material:material-icons-extended:1.6.7")
 }
 android {
     namespace = "dev.mtrp.app"

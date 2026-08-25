@@ -64,6 +64,9 @@ object MtrpSdk {
 
         // Set up channel manager
         val channelManager = FragmentingChannelManager(router)
+        
+        val beacon = BeaconBroadcaster(identity, channelManager, router.neighbourTable())
+	beacon.start()
 
         // Register all transports
         channelManager.register(WifiTransport(serverUrl,    identity.nodeId, ChannelType.WIFI))
